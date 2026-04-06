@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferguson × PipePro — Partnership Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root {
+  --fg-red: #1B5C8A;
+  --fg-red-dark: #0f3d5e;
+  --fg-red-light: #e4f2fb;
+  --fg-red-mid: #2d88c0;
+  --fg-navy: #0d3d5c;
+  --fg-teal: #1B6CA8;
+  --fg-blue-bright: #2980b9;
+  --gray-950: #091f2e;
+  --gray-900: #0f2d42;
+  --gray-800: #1a3d56;
+  --gray-700: #2a5070;
+  --gray-600: #4a7090;
+  --gray-400: #7aa0b8;
+  --gray-200: #c8dde8;
+  --gray-100: #e4eff5;
+  --gray-50: #f2f8fb;
+  --white: #ffffff;
+  --green: #0F6E56;
+  --green-light: #e1f5ee;
+  --amber: #b8730a;
+  --amber-light: #fef3e2;
+  --blue: #1a4f8a;
+  --blue-light: #e8f0fb;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--gray-950);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--fg-red);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(13,61,92,0.6);
+}
+
+.header-inner {
+  display: flex;
+  align-items: stretch;
+  height: 64px;
+}
+
+.header-logo {
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  padding: 0 1.75rem;
+  flex-shrink: 0;
+  gap: 0;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 1rem;
+}
+
+.header-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.95);
+}
+
+.live-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: #4eff91;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100%{opacity:1;} 50%{opacity:0.3;}
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+}
+
+.header-date {
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  font-family: 'DM Mono', monospace;
+}
+
+.print-btn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.print-btn:hover{background:rgba(255,255,255,0.25);}
+
+/* ── SCENARIO BAR ── */
+.scenario-bar {
+  background: var(--fg-navy);
+  border-bottom: 1px solid var(--gray-800);
+  padding: 10px 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.scenario-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-200);
+}
+
+.s-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--gray-200);
+  padding: 5px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.s-btn:hover{border-color:rgba(255,255,255,0.4);color:var(--white);}
+.s-btn.active{background:var(--white);border-color:var(--white);color:var(--fg-red);font-weight:700;}
+
+.spacer{flex:1;}
+
+.sim-note {
+  font-size: 11px;
+  color: var(--gray-400);
+  font-style: italic;
+}
+
+/* ── MAIN ── */
+main { padding: 1.5rem 2rem 4rem; max-width: 1400px; margin: 0 auto; }
+
+/* ── HERO METRIC ── */
+.hero-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.hero-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.hero-card:hover{border-color:var(--gray-600);}
+
+.hero-card.featured {
+  background: var(--fg-red);
+  border-color: var(--fg-red-mid);
+  grid-column: span 1;
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 50%;
+  transform: translate(20px, -20px);
+}
+
+.hero-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+
+.hero-card.featured .hero-label { color: rgba(255,255,255,0.7); }
+
+.hero-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.hero-card.featured .hero-value { color: white; }
+
+.hero-sub {
+  font-size: 11px;
+  color: var(--gray-600);
+  margin-top: 6px;
+}
+.hero-card.featured .hero-sub { color: rgba(255,255,255,0.6); }
+
+.hero-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4eff91;
+  background: rgba(78,255,145,0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+/* ── ROI CALLOUT ── */
+.roi-bar {
+  background: linear-gradient(135deg, #0a2a1a 0%, #0d3322 100%);
+  border: 1px solid #1a5a3a;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 2rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.roi-headline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4eff91;
+  margin-bottom: 4px;
+}
+
+.roi-number {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: #4eff91;
+  line-height: 1;
+}
+
+.roi-context {
+  font-size: 13px;
+  color: rgba(78,255,145,0.7);
+  margin-top: 4px;
+}
+
+.roi-breakdown {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.roi-stat { text-align: left; }
+.roi-stat .val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+}
+.roi-stat .lbl {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+/* ── CONTENT GRID ── */
+.content-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0,1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* ── PANEL ── */
+.panel {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+}
+
+.panel-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-400);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+/* ── SLIDERS ── */
+.slider-row { margin-bottom: 1rem; }
+
+.slider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.slider-name { font-size: 12px; color: var(--gray-400); }
+
+.slider-val {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'DM Mono', monospace;
+  color: var(--white);
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--gray-700);
+  border-radius: 2px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--fg-red);
+  cursor: pointer;
+  border: 2px solid var(--gray-900);
+  box-shadow: 0 0 0 1px var(--fg-red);
+}
+
+.divider { height: 1px; background: var(--gray-800); margin: 1rem 0; }
+
+/* ── CHARTS COLUMN ── */
+.charts-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.chart-wrap { position: relative; width: 100%; height: 240px; }
+
+/* ── BRANCH TABLE ── */
+.branch-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.branch-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-600);
+  padding: 0 8px 8px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.branch-table td {
+  padding: 9px 8px;
+  border-bottom: 1px solid var(--gray-800);
+  color: var(--gray-400);
+}
+.branch-table tr:last-child td { border-bottom: none; }
+.branch-table .branch-name { color: var(--white); font-weight: 500; }
+.branch-table .good { color: #4eff91; font-weight: 600; font-family: 'DM Mono', monospace; }
+.branch-table .mid { color: #ffd166; font-weight: 600; font-family: 'DM Mono', monospace; }
+
+.bar-cell { width: 80px; }
+.mini-bar-wrap { background: var(--gray-800); border-radius: 2px; height: 6px; overflow: hidden; }
+.mini-bar { height: 100%; background: var(--fg-red); border-radius: 2px; transition: width 0.4s ease; }
+
+/* ── SUBSIDY STRUCTURE ── */
+.structure-box {
+  background: var(--gray-800);
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 12px;
+  color: var(--gray-400);
+  line-height: 1.7;
+  margin-top: 0.75rem;
+}
+.structure-box strong { color: var(--white); font-weight: 500; }
+
+.investment-block {
+  margin-top: 1rem;
+}
+
+.invest-label-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.invest-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.invest-label .dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+.invest-label.pipepro { color: var(--fg-mid, #5aaee0); }
+.invest-label.pipepro .dot { background: var(--fg-red); }
+.invest-label.ferguson { color: #4eff91; }
+.invest-label.ferguson .dot { background: #4eff91; }
+
+.timeline-row {
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 40px;
+}
+
+.tl-free {
+  background: var(--fg-red);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: white;
+  letter-spacing: 0.04em; line-height: 1.3;
+}
+
+.tl-sub {
+  background: #1a4a2a;
+  border-left: 2px solid #4eff91;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #4eff91;
+  letter-spacing: 0.04em; line-height: 1.3;
+}
+
+.tl-pay {
+  background: var(--gray-800);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600; color: var(--gray-600);
+  letter-spacing: 0.04em; line-height: 1.3;
+  flex: 1;
+}
+
+.invest-amount-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  align-items: stretch;
+}
+
+.invest-pill {
+  flex: 1;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.invest-pill.pipepro {
+  background: rgba(27,92,138,0.2);
+  border: 1px solid rgba(27,92,138,0.4);
+}
+
+.invest-pill.ferguson {
+  background: rgba(26,74,42,0.3);
+  border: 1px solid rgba(78,255,145,0.2);
+}
+
+.invest-pill .pill-who {
+  font-weight: 700;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+.invest-pill.pipepro .pill-who { color: #5aaee0; }
+.invest-pill.ferguson .pill-who { color: #4eff91; }
+
+.invest-pill .pill-amt {
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.invest-pill .pill-desc {
+  font-size: 10px;
+  color: var(--gray-400);
+  margin-top: 1px;
+}
+
+.invest-total {
+  margin-top: 8px;
+  background: var(--gray-800);
+  border-radius: 6px;
+  padding: 7px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.invest-total .tot-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gray-400);
+}
+
+.invest-total .tot-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.invest-total .tot-ctx {
+  font-size: 10px;
+  color: var(--gray-600);
+  margin-top: 1px;
+  text-align: right;
+}
+
+/* ── LEGEND ── */
+.legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 8px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray-400); }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 2rem;
+  font-size: 10px;
+  color: var(--gray-700);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-800);
+}
+
+@media print {
+  body { background: white; color: black; }
+  header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .scenario-bar, .print-btn { display: none; }
+  .panel { background: #f8f8f7; border-color: #e0dfd8; }
+  .hero-card { background: #f8f8f7; border-color: #e0dfd8; }
+  .hero-value, .slider-val, .branch-name { color: #1a1917 !important; }
+  .hero-label, .slider-name, .panel-title, .branch-table th { color: #5a5955 !important; }
+  .hero-card.featured { background: var(--fg-red) !important; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <!-- Ferguson logo -->
+      <svg width="180" height="36" viewBox="0 0 180 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="4" fill="#1B5E8A"/>
+        <text x="11" y="27" font-family="Arial Black, Arial" font-weight="900" font-size="22" fill="white">F</text>
+        <text x="46" y="26" font-family="Arial Black, Arial" font-weight="900" font-size="18" letter-spacing="0.5" fill="#1B5E8A">FERGUSON</text>
+      </svg>
+      <!-- Partnership divider -->
+      <div style="width:1px;height:32px;background:#c8dde8;margin:0 1.25rem;flex-shrink:0;"></div>
+      <!-- PipePro logo -->
+      <svg width="100" height="36" viewBox="0 0 100 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="26" font-family="Arial, sans-serif" font-weight="700" font-size="22" fill="#1a1917">Pipe</text>
+        <text x="54" y="26" font-family="Arial, sans-serif" font-weight="700" font-size="22" fill="#c47b10">Pro</text>
+      </svg>
+    </div>
+    <div class="header-center">
+      <div class="header-title">PipePro Partnership Dashboard</div>
+      <div class="live-badge"><div class="live-dot"></div>Simulated Live</div>
+    </div>
+    <div class="header-right">
+      <div class="header-date" id="hdr-date"></div>
+      <button class="print-btn" onclick="window.print()">Print / PDF</button>
+    </div>
+  </div>
+</header>
+
+<div class="scenario-bar">
+  <span class="scenario-label">Scenario:</span>
+  <button class="s-btn active" onclick="loadScenario('conservative',this)">Conservative</button>
+  <button class="s-btn" onclick="loadScenario('base',this)">Base Case</button>
+  <button class="s-btn" onclick="loadScenario('accelerated',this)">Ferguson Accelerated</button>
+  <div class="spacer"></div>
+  <span class="sim-note">Simulated data for demonstration purposes · Ferguson supply spend estimated from industry averages</span>
+</div>
+
+<main>
+
+  <!-- HERO METRICS -->
+  <div class="hero-row">
+    <div class="hero-card featured">
+      <div class="hero-label">Ferguson supply sales generated</div>
+      <div class="hero-value" id="h-sales">—</div>
+      <div class="hero-sub">by PipePro contractors · month 18</div>
+      <div class="hero-delta" id="h-delta">↑ loading...</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-label">Active PipePro contractors</div>
+      <div class="hero-value" id="h-ctrs">—</div>
+      <div class="hero-sub">across Ferguson locations</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-label">Ferguson ROI on subsidy</div>
+      <div class="hero-value" id="h-roi">—</div>
+      <div class="hero-sub">supply $ per $1 invested</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-label">Avg order value lift</div>
+      <div class="hero-value" id="h-aov">—</div>
+      <div class="hero-sub">vs non-PipePro contractors</div>
+    </div>
+  </div>
+
+  <!-- ROI BAR -->
+  <div class="roi-bar">
+    <div>
+      <div class="roi-headline">18-Month cumulative supply revenue</div>
+      <div class="roi-number" id="roi-cum">—</div>
+      <div class="roi-context">generated at Ferguson branches by PipePro subscribers</div>
+    </div>
+    <div class="roi-breakdown">
+      <div class="roi-stat"><div class="val" id="roi-subsidy">—</div><div class="lbl">Ferguson subsidy cost</div></div>
+      <div class="roi-stat"><div class="val" id="roi-net">—</div><div class="lbl">Net supply revenue</div></div>
+      <div class="roi-stat"><div class="val" id="roi-mult">—</div><div class="lbl">Revenue multiplier</div></div>
+      <div class="roi-stat"><div class="val" id="roi-branches">—</div><div class="lbl">Active branches</div></div>
+    </div>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-grid">
+
+    <!-- SLIDERS -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">Partnership assumptions</div>
+
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Ferguson houses participating</span><span class="slider-val"><span id="v-houses">30</span>%</span></div>
+          <input type="range" min="1" max="100" value="30" step="1" id="s-houses">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Contractors per active house</span><span class="slider-val" id="v-ctrs">25</span></div>
+          <input type="range" min="1" max="150" value="25" step="1" id="s-ctrs">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Journeyman mix</span><span class="slider-val"><span id="v-jmix">40</span>%</span></div>
+          <input type="range" min="0" max="100" value="40" step="1" id="s-jmix">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Monthly churn</span><span class="slider-val"><span id="v-churn">3.0</span>%</span></div>
+          <input type="range" min="0" max="10" value="3" step="0.5" id="s-churn">
+        </div>
+
+        <div class="divider"></div>
+        <div class="panel-title" style="margin-bottom:0.85rem;">Ferguson supply economics</div>
+
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Avg annual supply spend / contractor</span><span class="slider-val">$<span id="v-spend">45000</span></span></div>
+          <input type="range" min="10000" max="200000" value="45000" step="5000" id="s-spend">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Ferguson wallet share</span><span class="slider-val"><span id="v-wallet">35</span>%</span></div>
+          <input type="range" min="10" max="80" value="35" step="5" id="s-wallet">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Order frequency lift from PipePro</span><span class="slider-val"><span id="v-lift">20</span>%</span></div>
+          <input type="range" min="0" max="60" value="20" step="5" id="s-lift">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Avg order value lift (Blueprint)</span><span class="slider-val"><span id="v-aov">15</span>%</span></div>
+          <input type="range" min="0" max="50" value="15" step="5" id="s-aov">
+        </div>
+
+        <div class="divider"></div>
+        <div class="panel-title" style="margin-bottom:0.85rem;">Subsidy structure</div>
+
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Free period (PipePro funds)</span><span class="slider-val"><span id="v-free">3</span> mo</span></div>
+          <input type="range" min="0" max="6" value="3" step="1" id="s-free">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Ferguson subsidy period</span><span class="slider-val"><span id="v-submo">9</span> mo</span></div>
+          <input type="range" min="0" max="12" value="9" step="1" id="s-submo">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Ferguson pays / Journeyman</span><span class="slider-val">$<span id="v-subamt">10</span>/mo</span></div>
+          <input type="range" min="0" max="49" value="10" step="1" id="s-subamt">
+        </div>
+        <div class="slider-row">
+          <div class="slider-top"><span class="slider-name">Seat cap</span><span class="slider-val" id="v-cap">3,000</span></div>
+          <input type="range" min="500" max="10000" value="3000" step="500" id="s-cap">
+        </div>
+
+        <div class="structure-box" id="structure-box"></div>
+        <div class="investment-block">
+          <div class="timeline-row" id="timeline-row"></div>
+          <div class="invest-amount-row" id="invest-amounts"></div>
+          <div class="invest-total" id="invest-total"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-col">
+
+      <div class="panel">
+        <div class="panel-title">Ferguson supply revenue vs. subsidy cost — month by month</div>
+        <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--fg-red);"></div>Supply revenue generated ($)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4eff91;"></div>Net revenue after subsidy</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffd166; border-radius:50%;"></div>Subsidy cost</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Top performing branches — simulated</div>
+        <table class="branch-table" id="branch-table">
+          <thead>
+            <tr>
+              <th>Branch</th>
+              <th>Contractors</th>
+              <th>Monthly supply $</th>
+              <th>ROI</th>
+              <th style="width:100px;">Adoption</th>
+            </tr>
+          </thead>
+          <tbody id="branch-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Contractor order frequency — PipePro vs. standard</div>
+        <div class="chart-wrap" style="height:180px;"><canvas id="freqChart"></canvas></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Ferguson Enterprises × PipePro LLC · Partnership Dashboard · Confidential · For internal use only</span>
+    <span>Supply spend estimates based on industry averages · Actual results will vary · pipepro-ferguson.vercel.app</span>
+  </div>
+
+</main>
+
+<script>
+const HOUSES = 1700;
+const APP_PRICE = 19.95;
+const JRN_PRICE = 49.95;
+
+const scenarios = {
+  conservative: {houses:15,ctrs:15,jmix:35,churn:4,spend:35000,wallet:30,lift:15,aov:10,free:3,submo:9,subamt:10,cap:2000},
+  base:         {houses:30,ctrs:25,jmix:40,churn:3,spend:45000,wallet:35,lift:20,aov:15,free:3,submo:9,subamt:10,cap:3000},
+  accelerated:  {houses:50,ctrs:40,jmix:50,churn:2,spend:65000,wallet:45,lift:30,aov:22,free:3,submo:9,subamt:10,cap:5000}
+};
+
+const BRANCHES = [
+  'Phoenix, AZ — Central','Scottsdale, AZ','Mesa, AZ','Tempe, AZ',
+  'Dallas, TX — Main','Houston, TX — North','Atlanta, GA','Denver, CO',
+  'Las Vegas, NV','Portland, OR'
+];
+
+let revChart, freqChart;
+
+function fmt(n){ return '$'+Math.round(n).toLocaleString(); }
+function fmtN(n){ return Math.round(n).toLocaleString(); }
+function fmtK(n){ return n>=1000000?'$'+(n/1000000).toFixed(1)+'M':n>=1000?'$'+(n/1000).toFixed(0)+'K':'$'+Math.round(n); }
+
+function getVals(){
+  return {
+    houses: parseFloat(document.getElementById('s-houses').value)/100,
+    ctrs: parseFloat(document.getElementById('s-ctrs').value),
+    jmix: parseFloat(document.getElementById('s-jmix').value)/100,
+    churn: parseFloat(document.getElementById('s-churn').value)/100,
+    spend: parseFloat(document.getElementById('s-spend').value),
+    wallet: parseFloat(document.getElementById('s-wallet').value)/100,
+    lift: parseFloat(document.getElementById('s-lift').value)/100,
+    aov: parseFloat(document.getElementById('s-aov').value)/100,
+    free: parseInt(document.getElementById('s-free').value),
+    submo: parseInt(document.getElementById('s-submo').value),
+    subamt: parseFloat(document.getElementById('s-subamt').value),
+    cap: parseInt(document.getElementById('s-cap').value)
+  };
+}
+
+function compute(){
+  const v = getVals();
+  const targetSubs = Math.round(HOUSES * v.houses * v.ctrs);
+  const activeBranches = Math.round(HOUSES * v.houses);
+
+  const revData=[], netData=[], subsidyData=[];
+  let cumRev=0, cumSubsidy=0, peakSubsidy=0;
+
+  for(let m=1;m<=18;m++){
+    const ramp = m/18;
+    const active = Math.round(targetSubs * ramp * Math.pow(1-v.churn, m/2));
+    const jSubs = Math.round(active * v.jmix);
+
+    // Ferguson supply revenue this month
+    const baseMonthlySpend = v.spend * v.wallet / 12;
+    const liftedSpend = baseMonthlySpend * (1 + v.lift) * (1 + v.aov);
+    const monthlySupply = Math.round(active * liftedSpend);
+
+    // Subsidy
+    let subsidy = 0;
+    if(m > v.free && m <= v.free + v.submo){
+      subsidy = Math.min(jSubs, v.cap) * v.subamt;
+    }
+
+    peakSubsidy = Math.max(peakSubsidy, subsidy);
+    cumSubsidy += subsidy;
+    cumRev += monthlySupply;
+
+    revData.push(monthlySupply);
+    netData.push(monthlySupply - subsidy);
+    subsidyData.push(subsidy);
+  }
+
+  const finalSubs = Math.round(targetSubs * Math.pow(1-v.churn, 9));
+  const finalJSubs = Math.round(finalSubs * v.jmix);
+  const baseMonthly = v.spend * v.wallet / 12;
+  const liftedMonthly = baseMonthly * (1+v.lift) * (1+v.aov);
+  const monthlySupply18 = Math.round(finalSubs * liftedMonthly);
+  const roiMultiple = cumSubsidy > 0 ? (cumRev/cumSubsidy).toFixed(1) : '∞';
+  const aovPct = '+' + Math.round(v.aov*100) + '%';
+  const deltaVsBase = Math.round(monthlySupply18 / 100) * 100;
+
+  document.getElementById('h-sales').textContent = fmtK(monthlySupply18);
+  document.getElementById('h-delta').textContent = '↑ ' + Math.round((v.lift+v.aov)*100) + '% vs standard contractors';
+  document.getElementById('h-ctrs').textContent = fmtN(finalSubs);
+  document.getElementById('h-roi').textContent = roiMultiple + '×';
+  document.getElementById('h-aov').textContent = aovPct;
+  document.getElementById('roi-cum').textContent = fmtK(cumRev);
+  document.getElementById('roi-subsidy').textContent = fmtK(cumSubsidy);
+  document.getElementById('roi-net').textContent = fmtK(cumRev - cumSubsidy);
+  document.getElementById('roi-mult').textContent = roiMultiple + '×';
+  document.getElementById('roi-branches').textContent = fmtN(activeBranches);
+
+  // Structure text
+  document.getElementById('structure-box').innerHTML =
+    `Contractors get <strong>${v.free} months free</strong> (PipePro funds) → Ferguson pays <strong>$${v.subamt}/Journeyman/mo</strong> for <strong>${v.submo} months</strong>, capped at <strong>${fmtN(v.cap)} seats</strong>. At month ${v.free+v.submo+1}, contractors convert to full price or downgrade.`;
+
+  // Timeline & investment amounts
+  const pipeproInvest = Math.round(JRN_PRICE * v.free);
+  const fergusonInvest = Math.round(v.subamt * v.submo);
+  const totalInvest = pipeproInvest + fergusonInvest;
+
+  const total = v.free + v.submo + 6;
+  const freePct = (v.free / total * 100).toFixed(0);
+  const subPct  = (v.submo / total * 100).toFixed(0);
+
+  document.getElementById('timeline-row').innerHTML =
+    `<div class="tl-free" style="width:${freePct}%"><span>FREE</span><span>${v.free}mo</span></div>` +
+    `<div class="tl-sub" style="width:${subPct}%"><span>FERGUSON SUBSIDY</span><span>${v.submo}mo</span></div>` +
+    `<div class="tl-pay"><span>FULL PRICE</span><span>→</span></div>`;
+
+  document.getElementById('invest-amounts').innerHTML =
+    `<div class="invest-pill pipepro">
+       <div class="pill-who">PipePro invests</div>
+       <div class="pill-amt">$${pipeproInvest}<span style="font-size:11px;color:var(--gray-400)">/contractor</span></div>
+       <div class="pill-desc">${v.free} months free · $${JRN_PRICE}/mo foregone</div>
+     </div>
+     <div class="invest-pill ferguson">
+       <div class="pill-who">Ferguson invests</div>
+       <div class="pill-amt">$${fergusonInvest}<span style="font-size:11px;color:var(--gray-400)">/contractor</span></div>
+       <div class="pill-desc">${v.submo} months · $${v.subamt}/mo per Journeyman</div>
+     </div>`;
+
+  document.getElementById('invest-total').innerHTML =
+    `<div><div class="tot-label">Combined investment per contractor</div><div class="tot-ctx">Shared commitment · aligned incentives</div></div>
+     <div style="text-align:right"><div class="tot-val">$${totalInvest}</div><div class="tot-ctx">over ${v.free + v.submo} months</div></div>`;
+
+  // Branch table
+  const tbody = document.getElementById('branch-tbody');
+  tbody.innerHTML = '';
+  const branchCtrs = Math.round(finalSubs / activeBranches);
+  BRANCHES.slice(0,8).forEach((name,i)=>{
+    const variance = 0.7 + Math.random()*0.6;
+    const bc = Math.max(1, Math.round(branchCtrs * variance));
+    const bs = Math.round(bc * liftedMonthly);
+    const broi = cumSubsidy > 0 ? (bs * 12 / (bc * v.jmix * v.subamt * v.submo)).toFixed(1) : '∞';
+    const adoptionPct = Math.min(100, Math.round((bc / (v.ctrs*1.2))*100));
+    const cls = parseFloat(broi) > 10 ? 'good' : 'mid';
+    tbody.innerHTML += `<tr>
+      <td class="branch-name">${name}</td>
+      <td style="font-family:'DM Mono',monospace;color:var(--white);">${bc}</td>
+      <td class="${cls}">${fmtK(bs)}</td>
+      <td class="${cls}">${broi}×</td>
+      <td class="bar-cell"><div class="mini-bar-wrap"><div class="mini-bar" style="width:${adoptionPct}%"></div></div><span style="font-size:10px;color:var(--gray-600);margin-left:4px;">${adoptionPct}%</span></td>
+    </tr>`;
+  });
+
+  // Revenue chart
+  const labels = Array.from({length:18},(_,i)=>'Mo '+(i+1));
+  if(revChart){
+    revChart.data.labels = labels;
+    revChart.data.datasets[0].data = revData;
+    revChart.data.datasets[1].data = netData;
+    revChart.data.datasets[2].data = subsidyData;
+    revChart.update();
+  } else {
+    revChart = new Chart(document.getElementById('revenueChart'),{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[
+          {label:'Supply revenue',data:revData,backgroundColor:'rgba(27,79,114,0.85)',borderRadius:3,yAxisID:'y',order:2},
+          {label:'Net revenue',data:netData,type:'line',borderColor:'#4eff91',backgroundColor:'transparent',yAxisID:'y',tension:0.4,pointRadius:0,borderWidth:2,order:1},
+          {label:'Subsidy cost',data:subsidyData,type:'line',borderColor:'#ffd166',backgroundColor:'transparent',yAxisID:'y',tension:0.4,pointRadius:0,borderWidth:1.5,borderDash:[4,3],order:1}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:ctx=>ctx.dataset.label+': $'+Math.round(ctx.raw).toLocaleString()}}},
+        scales:{
+          x:{ticks:{autoSkip:false,maxRotation:0,font:{size:9},color:'#5a5955'},grid:{display:false}},
+          y:{ticks:{font:{size:9},color:'#5a5955',callback:v=>'$'+Math.round(v/1000)+'K'},grid:{color:'rgba(255,255,255,0.04)'}}
+        }
+      }
+    });
+  }
+
+  // Frequency chart
+  const freqLabels = ['Weekly','2×/month','Monthly','Quarterly','Rarely'];
+  const piproData = [38,28,20,10,4];
+  const stdData = [18,22,28,20,12];
+
+  if(freqChart){
+    freqChart.update();
+  } else {
+    freqChart = new Chart(document.getElementById('freqChart'),{
+      type:'bar',
+      data:{
+        labels:freqLabels,
+        datasets:[
+          {label:'PipePro contractors',data:piproData,backgroundColor:'rgba(27,79,114,0.9)',borderRadius:3},
+          {label:'Standard contractors',data:stdData,backgroundColor:'rgba(90,89,85,0.5)',borderRadius:3}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'%'}}},
+        scales:{
+          x:{ticks:{font:{size:10},color:'#5a5955'},grid:{display:false}},
+          y:{ticks:{font:{size:9},color:'#5a5955',callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'},title:{display:true,text:'% of contractors',font:{size:9},color:'#5a5955'}}
+        }
+      }
+    });
+  }
+}
+
+function updateDisplays(){
+  document.getElementById('v-houses').textContent = document.getElementById('s-houses').value;
+  document.getElementById('v-ctrs').textContent = document.getElementById('s-ctrs').value;
+  document.getElementById('v-jmix').textContent = document.getElementById('s-jmix').value;
+  document.getElementById('v-churn').textContent = parseFloat(document.getElementById('s-churn').value).toFixed(1);
+  document.getElementById('v-spend').textContent = parseInt(document.getElementById('s-spend').value).toLocaleString();
+  document.getElementById('v-wallet').textContent = document.getElementById('s-wallet').value;
+  document.getElementById('v-lift').textContent = document.getElementById('s-lift').value;
+  document.getElementById('v-aov').textContent = document.getElementById('s-aov').value;
+  document.getElementById('v-free').textContent = document.getElementById('s-free').value;
+  document.getElementById('v-submo').textContent = document.getElementById('s-submo').value;
+  document.getElementById('v-subamt').textContent = document.getElementById('s-subamt').value;
+  document.getElementById('v-cap').textContent = parseInt(document.getElementById('s-cap').value).toLocaleString();
+  compute();
+}
+
+function loadScenario(name,btn){
+  document.querySelectorAll('.s-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const s = scenarios[name];
+  document.getElementById('s-houses').value=s.houses;
+  document.getElementById('s-ctrs').value=s.ctrs;
+  document.getElementById('s-jmix').value=s.jmix;
+  document.getElementById('s-churn').value=s.churn;
+  document.getElementById('s-spend').value=s.spend;
+  document.getElementById('s-wallet').value=s.wallet;
+  document.getElementById('s-lift').value=s.lift;
+  document.getElementById('s-aov').value=s.aov;
+  document.getElementById('s-free').value=s.free;
+  document.getElementById('s-submo').value=s.submo;
+  document.getElementById('s-subamt').value=s.subamt;
+  document.getElementById('s-cap').value=s.cap;
+  updateDisplays();
+}
+
+['s-houses','s-ctrs','s-jmix','s-churn','s-spend','s-wallet','s-lift','s-aov','s-free','s-submo','s-subamt','s-cap'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',updateDisplays);
+});
+
+document.getElementById('hdr-date').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+updateDisplays();
+</script>
+</body>
+</html>
