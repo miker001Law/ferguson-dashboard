@@ -897,7 +897,7 @@ function compute(){
 
   // Structure text
   document.getElementById('structure-box').innerHTML =
-    `Contractors get <strong>${v.free} months free</strong> (PipePro funds) → Ferguson pays <strong>$${v.subamt}/Journeyman/mo</strong> for <strong>${v.submo} months</strong>, capped at <strong>${fmtN(v.cap)} seats</strong>. At month ${v.free+v.submo+1}, contractors convert to full price or downgrade.`;
+    `Contractors receive <strong>${v.free} months free</strong> (PipePro funds) → Ferguson funds <strong>$${v.subamt}/Journeyman/mo</strong> for <strong>${v.submo} months</strong>, capped at <strong>${fmtN(v.cap)} seats</strong>. At month ${v.free+v.submo+1}, contractors convert to full price or downgrade.`;
 
   // Timeline & investment amounts
   const pipeproInvest = Math.round(JRN_PRICE * v.free);
