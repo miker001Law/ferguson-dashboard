@@ -647,40 +647,40 @@ input[type="range"]::-webkit-slider-thumb {
   <!-- HERO METRICS -->
   <div class="hero-row">
     <div class="hero-card featured">
-      <div class="hero-label">Ferguson supply sales generated</div>
+      <div class="hero-label">Ferguson sales from PipePro contractors</div>
       <div class="hero-value" id="h-sales">—</div>
-      <div class="hero-sub">by PipePro contractors · month 18</div>
+      <div class="hero-sub">month 18 · orders consolidated through Ferguson</div>
       <div class="hero-delta" id="h-delta">↑ loading...</div>
     </div>
     <div class="hero-card">
-      <div class="hero-label">Active PipePro contractors</div>
+      <div class="hero-label">Contractors using PipePro</div>
       <div class="hero-value" id="h-ctrs">—</div>
-      <div class="hero-sub">across Ferguson locations</div>
+      <div class="hero-sub">ordering through Ferguson locations</div>
     </div>
     <div class="hero-card">
-      <div class="hero-label">Ferguson ROI on subsidy</div>
+      <div class="hero-label">Ferguson return on investment</div>
       <div class="hero-value" id="h-roi">—</div>
-      <div class="hero-sub" id="h-roi-sub">supply $ per $1 invested</div>
+      <div class="hero-sub" id="h-roi-sub">for every $1 Ferguson puts in</div>
     </div>
     <div class="hero-card">
-      <div class="hero-label">Avg order value lift</div>
+      <div class="hero-label">Bigger orders per visit</div>
       <div class="hero-value" id="h-aov">—</div>
-      <div class="hero-sub">vs non-PipePro contractors</div>
+      <div class="hero-sub">vs contractors not on PipePro</div>
     </div>
   </div>
 
   <!-- ROI BAR -->
   <div class="roi-bar">
     <div>
-      <div class="roi-headline">18-Month cumulative supply revenue</div>
+      <div class="roi-headline">Total Ferguson sales over 18 months</div>
       <div class="roi-number" id="roi-cum">—</div>
-      <div class="roi-context">generated at Ferguson branches by PipePro subscribers</div>
+      <div class="roi-context">PipePro contractors consolidating their orders at Ferguson branches</div>
     </div>
     <div class="roi-breakdown">
-      <div class="roi-stat"><div class="val" id="roi-subsidy">—</div><div class="lbl">Ferguson subsidy cost</div></div>
-      <div class="roi-stat"><div class="val" id="roi-net">—</div><div class="lbl">Net supply revenue</div></div>
-      <div class="roi-stat"><div class="val" id="roi-mult">—</div><div class="lbl">Revenue multiplier</div></div>
-      <div class="roi-stat"><div class="val" id="roi-branches">—</div><div class="lbl">Active branches</div></div>
+      <div class="roi-stat"><div class="val" id="roi-subsidy">—</div><div class="lbl">Ferguson puts in</div></div>
+      <div class="roi-stat"><div class="val" id="roi-net">—</div><div class="lbl">Ferguson gets back</div></div>
+      <div class="roi-stat"><div class="val" id="roi-mult">—</div><div class="lbl">Return on every $1</div></div>
+      <div class="roi-stat"><div class="val" id="roi-branches">—</div><div class="lbl">Branches involved</div></div>
     </div>
   </div>
 
@@ -690,43 +690,43 @@ input[type="range"]::-webkit-slider-thumb {
     <!-- SLIDERS -->
     <div>
       <div class="panel">
-        <div class="panel-title">Partnership assumptions</div>
+        <div class="panel-title">Dial in your assumptions</div>
 
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Ferguson houses participating</span><span class="slider-val"><span id="v-houses">30</span>%</span></div>
+          <div class="slider-top"><span class="slider-name">Ferguson locations joining the program</span><span class="slider-val"><span id="v-houses">30</span>%</span></div>
           <input type="range" min="1" max="100" value="30" step="1" id="s-houses">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Contractors per active house</span><span class="slider-val" id="v-ctrs">25</span></div>
+          <div class="slider-top"><span class="slider-name">Contractors per location using PipePro</span><span class="slider-val" id="v-ctrs">20</span></div>
           <input type="range" min="1" max="150" value="20" step="1" id="s-ctrs">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Journeyman mix</span><span class="slider-val"><span id="v-jmix">40</span>%</span></div>
+          <div class="slider-top"><span class="slider-name">Senior vs. apprentice contractor mix</span><span class="slider-val"><span id="v-jmix">40</span>%</span></div>
           <input type="range" min="0" max="100" value="40" step="1" id="s-jmix">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Monthly churn</span><span class="slider-val"><span id="v-churn">3.0</span>%</span></div>
+          <div class="slider-top"><span class="slider-name">Contractors who stop each month</span><span class="slider-val"><span id="v-churn">3.0</span>%</span></div>
           <input type="range" min="0" max="10" value="3" step="0.5" id="s-churn">
         </div>
 
         <div class="divider"></div>
-        <div class="panel-title" style="margin-bottom:0.85rem;">Ferguson supply economics</div>
+        <div class="panel-title" style="margin-bottom:0.85rem;">What contractors spend at Ferguson</div>
 
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Avg annual supply spend / contractor</span><span class="slider-val">$<span id="v-spend">22,000</span></span></div>
+          <div class="slider-top"><span class="slider-name">What each contractor spends per year</span><span class="slider-val">$<span id="v-spend">22,000</span></span></div>
           <input type="range" min="10000" max="200000" value="22000" step="1000" id="s-spend">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Ferguson wallet share</span><span class="slider-val"><span id="v-wallet">35</span>%</span></div>
+          <div class="slider-top"><span class="slider-name">How much of that goes to Ferguson today</span><span class="slider-val"><span id="v-wallet">30</span>%</span></div>
           <input type="range" min="10" max="80" value="30" step="5" id="s-wallet">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Order frequency lift from PipePro</span><span class="slider-val"><span id="v-lift">20</span>%</span></div>
-          <input type="range" min="0" max="60" value="20" step="5" id="s-lift">
+          <div class="slider-top"><span class="slider-name">More orders routed to Ferguson via PipePro</span><span class="slider-val"><span id="v-lift">15</span>%</span></div>
+          <input type="range" min="0" max="60" value="15" step="5" id="s-lift">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Avg order value lift (Blueprint)</span><span class="slider-val"><span id="v-aov">15</span>%</span></div>
-          <input type="range" min="0" max="50" value="15" step="5" id="s-aov">
+          <div class="slider-top"><span class="slider-name">Bigger orders from Blueprint proposals</span><span class="slider-val"><span id="v-aov">12</span>%</span></div>
+          <input type="range" min="0" max="50" value="12" step="5" id="s-aov">
         </div>
 
         <div class="divider"></div>
@@ -762,12 +762,12 @@ input[type="range"]::-webkit-slider-thumb {
     <div class="charts-col">
 
       <div class="panel">
-        <div class="panel-title">Ferguson supply revenue vs. subsidy cost — month by month</div>
+        <div class="panel-title">Ferguson sales vs. what they put in — month by month</div>
         <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
         <div class="legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--fg-red);"></div>Supply revenue generated ($)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#4eff91;"></div>Net revenue after subsidy</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#ffd166; border-radius:50%;"></div>Subsidy cost</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--fg-red);"></div>Sales at Ferguson from PipePro contractors</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4eff91;"></div>Sales minus what Ferguson put in</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffd166; border-radius:50%;"></div>Ferguson's monthly investment</div>
         </div>
       </div>
 
@@ -778,8 +778,8 @@ input[type="range"]::-webkit-slider-thumb {
             <tr>
               <th>Branch</th>
               <th>Contractors</th>
-              <th>Monthly supply $</th>
-              <th>ROI</th>
+              <th>Monthly sales</th>
+              <th>Return</th>
               <th style="width:100px;">Adoption</th>
             </tr>
           </thead>
@@ -788,7 +788,7 @@ input[type="range"]::-webkit-slider-thumb {
       </div>
 
       <div class="panel">
-        <div class="panel-title">Contractor order frequency — PipePro vs. standard</div>
+        <div class="panel-title">How often contractors order — PipePro vs. not on PipePro</div>
         <div class="chart-wrap" style="height:180px;"><canvas id="freqChart"></canvas></div>
       </div>
 
@@ -887,7 +887,7 @@ function compute(){
   const aovPct = '+' + Math.round(v.aov*100) + '%';
 
   document.getElementById('h-sales').textContent = fmtK(monthlySupply18);
-  document.getElementById('h-delta').textContent = '↑ ' + Math.round((v.lift+v.aov)*100) + '% vs standard contractors';
+  document.getElementById('h-delta').textContent = '↑ ' + Math.round((v.lift+v.aov)*100) + '% more sales than non-PipePro contractors';
   document.getElementById('h-ctrs').textContent = fmtN(finalSubs);
   document.getElementById('h-roi').textContent = roiDisplay;
   document.getElementById('h-roi-sub').textContent = roiNote;
