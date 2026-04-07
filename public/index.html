@@ -660,7 +660,7 @@ input[type="range"]::-webkit-slider-thumb {
     <div class="hero-card">
       <div class="hero-label">Ferguson ROI on subsidy</div>
       <div class="hero-value" id="h-roi">—</div>
-      <div class="hero-sub">supply $ per $1 invested</div>
+      <div class="hero-sub" id="h-roi-sub">supply $ per $1 invested</div>
     </div>
     <div class="hero-card">
       <div class="hero-label">Avg order value lift</div>
@@ -698,7 +698,7 @@ input[type="range"]::-webkit-slider-thumb {
         </div>
         <div class="slider-row">
           <div class="slider-top"><span class="slider-name">Contractors per active house</span><span class="slider-val" id="v-ctrs">25</span></div>
-          <input type="range" min="1" max="150" value="25" step="1" id="s-ctrs">
+          <input type="range" min="1" max="150" value="20" step="1" id="s-ctrs">
         </div>
         <div class="slider-row">
           <div class="slider-top"><span class="slider-name">Journeyman mix</span><span class="slider-val"><span id="v-jmix">40</span>%</span></div>
@@ -713,12 +713,12 @@ input[type="range"]::-webkit-slider-thumb {
         <div class="panel-title" style="margin-bottom:0.85rem;">Ferguson supply economics</div>
 
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Avg annual supply spend / contractor</span><span class="slider-val">$<span id="v-spend">45000</span></span></div>
-          <input type="range" min="10000" max="200000" value="45000" step="5000" id="s-spend">
+          <div class="slider-top"><span class="slider-name">Avg annual supply spend / contractor</span><span class="slider-val">$<span id="v-spend">22,000</span></span></div>
+          <input type="range" min="10000" max="200000" value="22000" step="1000" id="s-spend">
         </div>
         <div class="slider-row">
           <div class="slider-top"><span class="slider-name">Ferguson wallet share</span><span class="slider-val"><span id="v-wallet">35</span>%</span></div>
-          <input type="range" min="10" max="80" value="35" step="5" id="s-wallet">
+          <input type="range" min="10" max="80" value="30" step="5" id="s-wallet">
         </div>
         <div class="slider-row">
           <div class="slider-top"><span class="slider-name">Order frequency lift from PipePro</span><span class="slider-val"><span id="v-lift">20</span>%</span></div>
@@ -808,9 +808,9 @@ const APP_PRICE = 19.95;
 const JRN_PRICE = 49.95;
 
 const scenarios = {
-  conservative: {houses:15,ctrs:15,jmix:35,churn:4,spend:35000,wallet:30,lift:15,aov:10,free:3,submo:9,subamt:10,cap:2000},
-  base:         {houses:30,ctrs:25,jmix:40,churn:3,spend:45000,wallet:35,lift:20,aov:15,free:3,submo:9,subamt:10,cap:3000},
-  accelerated:  {houses:50,ctrs:40,jmix:50,churn:2,spend:65000,wallet:45,lift:30,aov:22,free:3,submo:9,subamt:10,cap:5000}
+  conservative: {houses:15,ctrs:10,jmix:35,churn:4,spend:18000,wallet:25,lift:10,aov:8,free:3,submo:9,subamt:10,cap:2000},
+  base:         {houses:30,ctrs:20,jmix:40,churn:3,spend:22000,wallet:30,lift:15,aov:12,free:3,submo:9,subamt:10,cap:3000},
+  accelerated:  {houses:50,ctrs:35,jmix:50,churn:2,spend:28000,wallet:38,lift:22,aov:18,free:3,submo:9,subamt:10,cap:5000}
 };
 
 const BRANCHES = [
@@ -880,19 +880,22 @@ function compute(){
   const baseMonthly = v.spend * v.wallet / 12;
   const liftedMonthly = baseMonthly * (1+v.lift) * (1+v.aov);
   const monthlySupply18 = Math.round(finalSubs * liftedMonthly);
-  const roiMultiple = cumSubsidy > 0 ? (cumRev/cumSubsidy).toFixed(1) : '∞';
+  const rawRoi = cumSubsidy > 0 ? cumRev/cumSubsidy : 999;
+  const roiCapped = Math.min(rawRoi, 30);
+  const roiDisplay = rawRoi >= 30 ? '30×+' : roiCapped.toFixed(1) + '×';
+  const roiNote = rawRoi >= 30 ? '(conservatively capped)' : 'supply $ per $1 invested';
   const aovPct = '+' + Math.round(v.aov*100) + '%';
-  const deltaVsBase = Math.round(monthlySupply18 / 100) * 100;
 
   document.getElementById('h-sales').textContent = fmtK(monthlySupply18);
   document.getElementById('h-delta').textContent = '↑ ' + Math.round((v.lift+v.aov)*100) + '% vs standard contractors';
   document.getElementById('h-ctrs').textContent = fmtN(finalSubs);
-  document.getElementById('h-roi').textContent = roiMultiple + '×';
+  document.getElementById('h-roi').textContent = roiDisplay;
+  document.getElementById('h-roi-sub').textContent = roiNote;
   document.getElementById('h-aov').textContent = aovPct;
   document.getElementById('roi-cum').textContent = fmtK(cumRev);
   document.getElementById('roi-subsidy').textContent = fmtK(cumSubsidy);
   document.getElementById('roi-net').textContent = fmtK(cumRev - cumSubsidy);
-  document.getElementById('roi-mult').textContent = roiMultiple + '×';
+  document.getElementById('roi-mult').textContent = roiDisplay;
   document.getElementById('roi-branches').textContent = fmtN(activeBranches);
 
   // Structure text
