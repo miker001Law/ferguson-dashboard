@@ -745,7 +745,7 @@ input[type="range"]::-webkit-slider-thumb {
           <input type="range" min="0" max="49" value="10" step="1" id="s-subamt">
         </div>
         <div class="slider-row">
-          <div class="slider-top"><span class="slider-name">Seat cap</span><span class="slider-val" id="v-cap">3,000</span></div>
+          <div class="slider-top"><span class="slider-name">Joint review triggered after this many contractors</span><span class="slider-val" id="v-cap">3,000</span></div>
           <input type="range" min="500" max="10000" value="3000" step="500" id="s-cap">
         </div>
 
@@ -900,7 +900,7 @@ function compute(){
 
   // Structure text
   document.getElementById('structure-box').innerHTML =
-    `Contractors receive <strong>${v.free} months free</strong> (PipePro funds) → Ferguson funds <strong>$${v.subamt}/Journeyman/mo</strong> for <strong>${v.submo} months</strong>, capped at <strong>${fmtN(v.cap)} seats</strong>. At month ${v.free+v.submo+1}, contractors convert to full price or downgrade.`;
+    `Contractors receive <strong>${v.free} months free</strong> (PipePro funds) → Ferguson funds <strong>$${v.subamt}/Journeyman/mo</strong> for <strong>${v.submo} months</strong>. After <strong>${fmtN(v.cap)} contractors</strong>, both parties review results and agree to continue, expand, or adjust. At month ${v.free+v.submo+1}, contractors convert to full price or downgrade.`;
 
   // Timeline & investment amounts
   const pipeproInvest = Math.round(JRN_PRICE * v.free);
@@ -925,7 +925,7 @@ function compute(){
      <div class="invest-pill ferguson">
        <div class="pill-who">Ferguson invests</div>
        <div class="pill-amt">$${fergusonInvest}<span style="font-size:11px;color:var(--gray-400)">/contractor</span></div>
-       <div class="pill-desc">${v.submo} months · $${v.subamt}/mo per Journeyman</div>
+       <div class="pill-desc">${v.submo} months · $${v.subamt}/mo per Journeyman · reviewed at ${fmtN(v.cap)} contractors</div>
      </div>`;
 
   document.getElementById('invest-total').innerHTML =
