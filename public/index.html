@@ -789,6 +789,16 @@ input[type="range"]::-webkit-slider-thumb {
 
       <div class="panel">
         <div class="panel-title">How often contractors order — PipePro vs. not on PipePro</div>
+        <div style="display:flex;gap:1.5rem;margin-bottom:10px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-200);">
+            <div style="width:12px;height:12px;border-radius:2px;background:#2d88c0;flex-shrink:0;"></div>
+            <strong>On PipePro</strong>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-400);">
+            <div style="width:12px;height:12px;border-radius:2px;background:#c8dde8;flex-shrink:0;"></div>
+            Not on PipePro
+          </div>
+        </div>
         <div class="chart-wrap" style="height:180px;"><canvas id="freqChart"></canvas></div>
       </div>
 
@@ -995,16 +1005,16 @@ function compute(){
       data:{
         labels:freqLabels,
         datasets:[
-          {label:'PipePro contractors',data:piproData,backgroundColor:'rgba(27,79,114,0.9)',borderRadius:3},
-          {label:'Standard contractors',data:stdData,backgroundColor:'rgba(90,89,85,0.5)',borderRadius:3}
+          {label:'On PipePro',data:piproData,backgroundColor:'#2d88c0',borderRadius:3},
+          {label:'Not on PipePro',data:stdData,backgroundColor:'#c8dde8',borderRadius:3}
         ]
       },
       options:{
         responsive:true,maintainAspectRatio:false,
         plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'%'}}},
         scales:{
-          x:{ticks:{font:{size:10},color:'#5a5955'},grid:{display:false}},
-          y:{ticks:{font:{size:9},color:'#5a5955',callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'},title:{display:true,text:'% of contractors',font:{size:9},color:'#5a5955'}}
+          x:{ticks:{font:{size:10},color:'#7aa0b8'},grid:{display:false}},
+          y:{ticks:{font:{size:9},color:'#7aa0b8',callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'},title:{display:true,text:'% of contractors',font:{size:9},color:'#7aa0b8'}}
         }
       }
     });
